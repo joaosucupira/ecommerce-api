@@ -13,6 +13,8 @@ class Category extends Model
         'name',
     ];
 
+
+    // * Uma categoria pode pertencer a vários produtos
     public function products()
     {
         return $this->belongsToMany(

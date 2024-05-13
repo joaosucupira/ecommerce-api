@@ -36,13 +36,23 @@ class ProductController extends Controller
             return response()->json(['message' => 'Product not found'], 404);
         }
         return response()->json($product, 200);
+        // return response()->json([
+        //     'data' => $product
+        // ]);
     }
 
     public function index()
     {
         $products = Product::all();
+        // $product = Product::with('categories')->get();
+
         return response()->json($products, 200);
+        // return response()->json([
+        //     'data' => $product
+        // ]);
     }
+
+    // DELETE
 
     public function destroy(Request $request, $id)
     {
@@ -54,6 +64,8 @@ class ProductController extends Controller
         return response()->json(['message' => 'Product deleted successfully.'], 200);
         
     }
+
+    // PUT
 
     public function update(Request $request, $id){
         $product = Product::find($id);
@@ -73,5 +85,4 @@ class ProductController extends Controller
         return response()->json([['message' => 'Product updated successfully.'], 200]);
 
     }
-
 }

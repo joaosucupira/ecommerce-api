@@ -23,9 +23,19 @@ class CategoryController extends Controller
         return response()->json($category, 201);
     }
 
+    // GET
+
     public function show($id){
         $category = Category::findOrFail($id);
-        
+
         return response()->json($category, 200);
+    }
+
+    public function index(){
+        $category = Category::with('products')->get();
+
+        return response()->json([
+            'data' => $category
+        ]);
     }
 }

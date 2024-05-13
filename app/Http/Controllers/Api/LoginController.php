@@ -15,7 +15,8 @@ class LoginController extends Controller
         $credentials = ['email'=>$request->email, 'password'=>$request->password];
         
         if(!auth()->attempt($credentials)){
-            throw new \Exception('Failed authentication.');
+            throw new \Exception('Unauthorized.');
+            // return response()->json(['message' => 'Unauthorized.'], 401]);
         }
 
        $token = auth()->user()->createToken('access_token');
@@ -24,4 +25,5 @@ class LoginController extends Controller
             "access_token"=>$token->plainTextToken,        
        ]);
     }
+
 }

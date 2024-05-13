@@ -9,3 +9,5 @@ class OrderItem extends Model
 {
     use HasFactory;
 }
+
+    // orders <-> order_items <-> products

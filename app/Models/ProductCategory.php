@@ -9,3 +9,5 @@ class ProductCategory extends Model
 {
     use HasFactory;
 }
+
+    // products <-> product_categories <-> category

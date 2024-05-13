@@ -20,6 +20,7 @@ class Product extends Model
         'active' => 'boolean',
     ];
 
+    // * Um produto pode pertencer a várias categorias
 
     public function categories() 
     {
@@ -29,18 +30,20 @@ class Product extends Model
         );
     }
 
-    public function orderItems()
+    // * Um produto pode estar em vários pedidos
+
+    public function orders()
     {
-        return $this->hasMany(
+        return $this->belongsToMany(
+            Order::class,
             OrderItem::class,
-            
         );
     }
-
 }
 
     // products <-> product_categories <-> category
     // belongsToMany
 
-    // N
+    // N    
     // product -> N:categorias 
+

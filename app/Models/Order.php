@@ -16,4 +16,26 @@ class Order extends Model
     protected $casts = [
         'code' => 'integer',
     ];
+
+    // * Um pedido pertence a apenas UM cliente
+
+    public function users() 
+    {
+        return $this->belogsTo(
+            User::class,
+        );
+    }
+
+    // * Um pedido pode ter vários produtos
+
+    public function products()
+    {
+        return $this->belongsToMany(
+            Product::class,
+            OrderItem::class,
+        );
+    }
+
 }
+
+// order <-> order_items <-> products

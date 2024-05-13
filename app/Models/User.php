@@ -45,4 +45,18 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // * Um usuario pode ter varios pedidos
+    public function orders()
+    {
+        return $this->hasMany(
+            Order::class,
+        );
+    }
+    
 }
+// User <-> Order <-> OrderItem
+//            ^
+//            |
+//            v
+//         OrderStatuses     
