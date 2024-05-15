@@ -11,21 +11,22 @@ class ProductController extends Controller
     // POST
     public function store(Request $request)
     {
-        $request->validate([
+        $validated =  $request->validate([
             'name' => 'required|string',
             'price' => 'required|numeric',
-            'slug' => 'required|string|unique:products',
+            'slug' => 'nullable|string|unique:products',
+            'path'=> 'required'
         ]);
 
-        $product = Product::create([
-            'name' => $request->name,
-            'price' => $request->price,
-            // 'slug' => $request->slug,
-            // 'slug' => $request->Str::of('Laravel Framework')->slug('-'),
-            'slug' => Str::slug($request->name),
-        ]);
+        try{
+             $product = Product::create($validated);
 
-        return response()->json($product, 201);
+            return response()->json(compact('product'), 201);
+        }catch(\Exception $e){
+            return response()->json(['message'=>'Invalid request.','error'=>$e->getMessage()], 400);
+        }
+
+       
     }
 
     // GET
@@ -77,6 +78,7 @@ class ProductController extends Controller
             'name' => 'string',
             'price' => 'decimal',
             'active' => 'boolean',
+            'path'=> 'string'
         ]);
 
         $product->update($request->all());

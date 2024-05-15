@@ -8,17 +8,33 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+    
     protected $fillable = [
         'name',
         'slug',
         'price',
         'active',
+        'path',
     ];
 
     protected $casts = [
         'price' => 'float',
         'active' => 'boolean',
     ];
+
+    protected $attributes = [
+        'path'=>null,
+        'active'=>true,
+    ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function(self $product){
+            $product->slug= !$product->slug ? \Str::slug($product->name) : $product->slug;
+        });
+    }
 
     // * Um produto pode pertencer a várias categorias
 
@@ -38,6 +54,12 @@ class Product extends Model
             Order::class,
             OrderItem::class,
         );
+    }
+
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }
 
