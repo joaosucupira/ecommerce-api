@@ -11,10 +11,11 @@ use App\Models\Category;
 use App\Http\Controllers\OrderController;
 use App\Models\Order;
 use App\Http\Controllers\Api\ProductCategoryController;
+use App\Http\Controllers\Api\RegisterController;
 
 /* Auth Routes */
 Route::post('/login', LoginController::class);
-
+Route::post('/register', RegisterController::class);
 
 // SECURED ROUTES
 Route::middleware('auth:sanctum')->group(function(){
