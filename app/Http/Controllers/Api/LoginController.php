@@ -23,7 +23,7 @@ class LoginController extends Controller
 
        return response()->json([
             "access_token"=>$token->plainTextToken,        
-       ]);
+       ]); // Token can be accessed in localstorage
     }
 
 }

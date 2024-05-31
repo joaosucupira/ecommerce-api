@@ -36,6 +36,7 @@ class ProductController extends Controller
         if(!$product){
             return response()->json(['message' => 'Product not found'], 404);
         }
+        
         return response()->json($product, 200);
         // return response()->json([
         //     'data' => $product
@@ -87,4 +88,31 @@ class ProductController extends Controller
         return response()->json([['message' => 'Product updated successfully.'], 200]);
 
     }
+
+    // CATEGORIES
+    public function categories($id)
+    {
+        try {
+            $product = Product::with('categories')->findOrFail($id);
+
+            $categories = $product->categories->map(function ($category) {
+                return [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                ];
+            });
+
+            return response()->json($categories, 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Product not found'
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An unexpected error occurred',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
 }

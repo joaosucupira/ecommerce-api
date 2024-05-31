@@ -23,19 +23,16 @@ Route::middleware('auth:sanctum')->group(function(){
         return $request->user();
     });
 
-    Route::apiResource('/categories', CategoryController::class);
-
-    Route::apiResource('products/{product}/categories', ProductCategoryController::class);
+    // Route::apiResource('/categories', CategoryController::class);
+    // Route::apiResource('products/{product}/categories', ProductCategoryController::class);
     Route::apiResource('/orders', OrderController::class);
     Route::apiResource('/orders/{order}/checkout', OrderController::class);
     
 });
 
+// Route::apiResource('products/{product}/categories', ProductCategoryController::class);
+Route::get('products/{product}/categories', [ProductController::class, 'categories']);
 Route::apiResource('/products', ProductController::class);
 Route::apiResource('/categories', CategoryController::class);
+Route::apiResource('/product-categories', ProductCategoryController::class);
 
-// PRODUCT
-//Route::apiResource('/product', ProductController::class); // Descomentadada para teste de frontend
-
-// CATEGORY
-Route::apiResource('/category', CategoryController::class); // Descomentada para teste de frontend
