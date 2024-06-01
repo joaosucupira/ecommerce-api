@@ -5,16 +5,21 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
+use App\Traits\HandlesExceptions;
+
 
 class ProductCategoryController extends Controller
 {
+    use HandlesExceptions;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $productCategories = ProductCategory::all();
-        return response()->json($productCategories, 200);
+        try {
+            $productCategories = ProductCategory::all();
+            return response()->json($productCategories, 200);
+        } catch(\Exception $e) { return $this->handleException($e); }
     }
 
     /**
@@ -57,12 +62,9 @@ class ProductCategoryController extends Controller
         //
         try {
             $productCategory = ProductCategory::findOrFail($id);
-
             return response()->json($productCategory, 200);
         } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'message' => 'ProductCategory not found'
-            ], 404);
+            return response()->json(['message' => 'Relation not found', 404]);
         }
     }
 

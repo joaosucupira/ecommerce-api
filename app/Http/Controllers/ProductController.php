@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Traits\HandlesExceptions; // handleException keeps getting undefined error
 
 class ProductController extends Controller
 {
@@ -55,7 +56,6 @@ class ProductController extends Controller
     }
 
     // DELETE
-
     public function destroy(Request $request, $id)
     {
         $product = Product::find($id);
@@ -63,12 +63,10 @@ class ProductController extends Controller
             return response()->json(['message' => 'Product not found.'], 404);
         }
         $product->delete();
-        return response()->json(['message' => 'Product deleted successfully.'], 200);
-        
+        return response()->json(['message' => "Product $product->name deleted successfully."], 200);
     }
 
     // PUT
-
     public function update(Request $request, $id){
         $product = Product::find($id);
         if(!$product){
@@ -83,10 +81,8 @@ class ProductController extends Controller
         ]);
 
         $product->update($request->all());
-
         $product->save();
         return response()->json([['message' => 'Product updated successfully.'], 200]);
-
     }
 
     // CATEGORIES
@@ -107,12 +103,17 @@ class ProductController extends Controller
             return response()->json([
                 'message' => 'Product not found'
             ], 404);
+
+        
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'An unexpected error occurred',
                 'error' => $e->getMessage()
             ], 500);
         }
+        // } catch(\Exception $e){
+        //     return $this->handleException($e);
+        // } // ! - undefined error
     }
 
 }

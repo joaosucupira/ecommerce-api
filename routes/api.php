@@ -17,7 +17,7 @@ use App\Http\Controllers\Api\RegisterController;
 Route::post('/login', LoginController::class);
 Route::post('/register', RegisterController::class);
 
-// SECURED ROUTES
+/* Secured Routes */
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('/user', function (Request $request) {
         return $request->user();
@@ -30,9 +30,11 @@ Route::middleware('auth:sanctum')->group(function(){
     
 });
 
-// Route::apiResource('products/{product}/categories', ProductCategoryController::class);
-Route::get('products/{product}/categories', [ProductController::class, 'categories']);
 Route::apiResource('/products', ProductController::class);
 Route::apiResource('/categories', CategoryController::class);
 Route::apiResource('/product-categories', ProductCategoryController::class);
 
+// Categories of a Product
+Route::get('products/{product}/categories', [ProductController::class, 'categories']);
+// Products from a Category
+Route::get('categories/{category}/products', [CategoryController::class, 'products']);

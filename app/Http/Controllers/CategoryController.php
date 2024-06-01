@@ -5,10 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-
+use App\Traits\HandlesExceptions;
 
 class CategoryController extends Controller
 {
+    use HandlesExceptions;
+
+    // AUX
+    public function findCheck($id){
+        $category = Category::find($id);
+        if(!$category) { return response()->json(['message' => 'Category not found.'], 404); }
+        return $category;
+    }
+
     // POST
     public function store(Request $request){
 
@@ -25,55 +34,53 @@ class CategoryController extends Controller
 
     // GET
     public function show($id){
-        $category = Category::findOrFail($id);
-
+        // $category = Category::find($id);
+        // if(!$category) { return response()->json(['message' => 'Category not found.'], 404); }
+        $category = $this->findCheck($id);
         return response()->json($category, 200);
     }
 
     public function index(){
-        $category = Category::with('products')->get();
+        // $category = Category::with('products')->get();
+        $categories = Category::all();
 
-        return response()->json([
-            'data' => $category
-        ]);
+        // return response()->json([
+        //     'data' => $category
+        // ]);
+        return response()->json($categories, 200);
     }
 
-    //PRODUCT - testes
-    public function product(Request $request, $categoryId){
+    public function update(Request $request, $id){
+        $category = Category::find($id);
+        if(!$category) { return response()->json(['message' => 'Category not found.'], 404); }
+        $old_name = $category->name;
+
+        $request->validate(['name' => 'string',]);
+        $category->update($request->all());
+        $category->save();
+        return response()->json([['message' => "Category $old_name updated successfully to $category->name."], 200]);
+
+    }
+
+    public function destroy($id) {
+        // $category = Category::find($id);
+        // if(!$category) { return response()->json(['message' => 'Category not found.'], 404); }
+        $category = $this->findCheck($id);
+        $category->delete();
+        return response()->json([['message' => "Category $category->name deleted successfully."]]);
+    }
+
+    public function products($id) {
         try {
-            $request->validate([
-                'product_id' => 'required|exists:products,id',
-            ]);
-            $category = Category::findOrFail($categoryId);
-            $product = Product::findOrFail($request->product_id);
-            // ! - Use of attach()
-            $category->products()->attach($product);
-
-            return response()->json([
-                'message' => 'Producted categorized successfully.',
-                'category' => $category
-            ], 200);
-
-        } catch (ValidationException $e) {
-            // 422 - validation
-            return response()->json([
-                'message' => 'Validation failed.',
-                'errors' => $e->erros()
-            ], 422);
-
-        } catch (ModelNotFoundException $e) {
-            // 404 - not found
-            return response()->json([
-                'message' => 'Category or Product not found'
-            ], 404);
+            // $category = Category::findOrFail($categoryId);
+            $category = $this->findCheck($id);
+            $products = $category->products;
+            return response()->json($products, 200);
 
         } catch (\Exception $e) {
-            // 500 - internal error
-            return response()->json([
-                'message' => 'An unexpected error occurred',
-                'error' => $e->getMessage()
-            ], 500);
+            return $this->handleException($e);
         }
-        
-    } 
+    }
+
+
 }
