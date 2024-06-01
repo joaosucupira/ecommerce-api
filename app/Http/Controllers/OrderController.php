@@ -10,10 +10,7 @@ class OrderController extends Controller
     // POST
     public function store(Request $request)
     {
-        $requestData = $request->validate([
-            'code' => 'required|integer|unique:orders',
-        ]);
-
+        $requestData = $request->validate(['code' => 'required|integer|unique:orders',]);
         $order = Order::create($requestData);
         return response()->json($order, 201);
     }

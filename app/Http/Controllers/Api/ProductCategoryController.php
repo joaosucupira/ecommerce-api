@@ -36,6 +36,7 @@ class ProductCategoryController extends Controller
             $productCategory = ProductCategory::create([
                 'product_id' => $request->product_id,
                 'category_id' => $request->category_id,
+                
             ]);
 
             return response()->json($productCategory, 201);

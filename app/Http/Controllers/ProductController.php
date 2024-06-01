@@ -9,6 +9,15 @@ use App\Traits\HandlesExceptions; // handleException keeps getting undefined err
 
 class ProductController extends Controller
 {
+    use HandlesExceptions;
+    //AUX 
+
+    public function findCheck($id){
+        $product = Product::find($id);
+        if(!$product) { return response()->json(['message' => 'Product not found.'], 404); }
+        return $product;
+    }
+
     // POST
     public function store(Request $request)
     {
@@ -21,47 +30,29 @@ class ProductController extends Controller
 
         try{
              $product = Product::create($validated);
-
             return response()->json(compact('product'), 201);
-        }catch(\Exception $e){
-            return response()->json(['message'=>'Invalid request.','error'=>$e->getMessage()], 400);
-        }
 
-       
+        } catch(\Exception $e){ return response()->json(['message'=>'Invalid request.','error'=>$e->getMessage()], 400); }
     }
 
     // GET
     public function show($id)
     {
-        $product = Product::find($id);
-        if(!$product){
-            return response()->json(['message' => 'Product not found'], 404);
-        }
-        
+        $product = $this->findCheck($id);
         return response()->json($product, 200);
-        // return response()->json([
-        //     'data' => $product
-        // ]);
     }
 
     public function index()
     {
         $products = Product::all();
-        // $product = Product::with('categories')->get();
-
+        // $products = Product::with('categories')->get();
         return response()->json($products, 200);
-        // return response()->json([
-        //     'data' => $product
-        // ]);
     }
 
     // DELETE
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
-        $product = Product::find($id);
-        if(!$product){
-            return response()->json(['message' => 'Product not found.'], 404);
-        }
+        $product = $this->findCheck($id);
         $product->delete();
         return response()->json(['message' => "Product $product->name deleted successfully."], 200);
     }
@@ -90,7 +81,6 @@ class ProductController extends Controller
     {
         try {
             $product = Product::with('categories')->findOrFail($id);
-
             $categories = $product->categories->map(function ($category) {
                 return [
                     'id' => $category->id,

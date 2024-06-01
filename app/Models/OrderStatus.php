@@ -9,8 +9,6 @@ class OrderStatus extends Model
 {
     use HasFactory;
 
-    //* Um status de pedido pode estar em vários pedidos
-
     public function orders()
     {
         return $this->hasMany(
