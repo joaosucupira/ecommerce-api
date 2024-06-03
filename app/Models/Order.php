@@ -10,6 +10,7 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'code',
     ];
 
@@ -17,23 +18,34 @@ class Order extends Model
         'code' => 'integer',
     ];
 
-    // * Um pedido pertence a apenas UM cliente
-
-    public function users() 
+    // 1:1
+    public function user() 
     {
         return $this->belogsTo(
             User::class,
         );
     }
 
-    // * Um pedido pode ter vários produtos
+    // 1:n
+    public function orderItems()
+    {
+        return $this->hasMany(
+            OrderItem::class
+        );
+    }
 
+    // 1:n
+    public function orderStatuses()
+    {
+        return $this->hasMany(orderStatus::class);
+    }
+
+    // n:n
     public function products()
     {
-        return $this->belongsToMany(
-            Product::class,
-            OrderItem::class,
-        );
+        return $this->belongsToMany(Product::class, 'order_items')
+            ->withPivot('quantity')
+            ->withTimestamps();
     }
 
 }

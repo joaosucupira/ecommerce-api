@@ -41,8 +41,8 @@ class CategoryController extends Controller
     }
 
     public function index(){
-        // $category = Category::with('products')->get();
-        $categories = Category::all();
+        $categories = Category::with('products')->get();
+        // $categories = Category::all();
 
         // return response()->json([
         //     'data' => $category

@@ -36,8 +36,7 @@ class Product extends Model
         });
     }
 
-    // * Um produto pode pertencer a várias categorias
-
+    // N : N
     public function categories() 
     {
         return $this->belongsToMany(
@@ -46,8 +45,7 @@ class Product extends Model
         );
     }
 
-    // * Um produto pode estar em vários pedidos
-
+    // n:n
     public function orders()
     {
         return $this->belongsToMany(
@@ -56,7 +54,7 @@ class Product extends Model
         );
     }
 
-
+    // 1:n
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);

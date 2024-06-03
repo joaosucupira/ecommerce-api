@@ -12,6 +12,8 @@ use App\Http\Controllers\OrderController;
 use App\Models\Order;
 use App\Http\Controllers\Api\ProductCategoryController;
 use App\Http\Controllers\Api\RegisterController;
+use App\Http\Controllers\OrderStatusesController;
+use App\Http\Controllers\OrderItemController;
 
 /* Auth Routes */
 Route::post('/login', LoginController::class);
@@ -25,16 +27,32 @@ Route::middleware('auth:sanctum')->group(function(){
 
     // Route::apiResource('/categories', CategoryController::class);
     // Route::apiResource('products/{product}/categories', ProductCategoryController::class);
-    Route::apiResource('/orders', OrderController::class);
-    Route::apiResource('/orders/{order}/checkout', OrderController::class);
+    // Route::apiResource('/orders', OrderController::class);
+    // Route::apiResource('/orders/{order}/checkout', OrderController::class);
     
 });
-
+// Products 
 Route::apiResource('/products', ProductController::class);
+Route::get('products/{product}/categories', [ProductController::class, 'categories']); // Categories of a Product
+Route::get('/products/{id}/orders', [ProductController::class, 'orders']); // Orders that have that product
+// Categories
 Route::apiResource('/categories', CategoryController::class);
+Route::get('categories/{category}/products', [CategoryController::class, 'products']); // Products from a Category
+
+// Product Categories
 Route::apiResource('/product-categories', ProductCategoryController::class);
 
-// Categories of a Product
-Route::get('products/{product}/categories', [ProductController::class, 'categories']);
-// Products from a Category
-Route::get('categories/{category}/products', [CategoryController::class, 'products']);
+// Orders
+Route::apiResource('/orders', OrderController::class);
+Route::get('/orders/{id}/order-items', [OrderController::class, 'orderItems']);
+// Order Items
+Route::apiResource('/order-items', OrderItemController::class);
+Route::get('/order-items/{id}/order', [OrderItemController::class, 'order']);
+Route::get('/order-items/{id}/product', [OrderItemController::class, 'product']);
+
+// Order Statuses
+Route::apiResource('/order-statuses', OrderStatusesController::class);
+Route::get('/orders/{id}/statuses', [OrderStatusesController::class, 'orderStatuses']);
+
+
+

@@ -10,13 +10,20 @@ class OrderItem extends Model
     use HasFactory;
 
     protected $fillable = [
+        'order_id',
         'product_id',
         'quantity'
     ];
 
+    
+    // 1:1
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+    // 1:1
     public function product()
     {
-        // Siginifa que é uma relacao 1:1 e que a chave está nessa tabela
         return $this->belongsTo(Product::class);
     }
 }

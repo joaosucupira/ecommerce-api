@@ -76,7 +76,7 @@ class ProductController extends Controller
         return response()->json([['message' => 'Product updated successfully.'], 200]);
     }
 
-    // CATEGORIES
+    // RELATIONS
     public function categories($id)
     {
         try {
@@ -104,6 +104,12 @@ class ProductController extends Controller
         // } catch(\Exception $e){
         //     return $this->handleException($e);
         // } // ! - undefined error
+    }
+
+    public function orders($productId) {
+        $product = $this->findCheck($productId);
+        $orders = $product->orders;
+        return response()->json($orders, 200);
     }
 
 }
