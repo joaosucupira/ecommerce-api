@@ -21,7 +21,7 @@ class Order extends Model
     // 1:1
     public function user() 
     {
-        return $this->belogsTo(
+        return $this->belongsTo(
             User::class,
         );
     }

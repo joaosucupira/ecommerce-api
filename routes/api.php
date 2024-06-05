@@ -40,19 +40,19 @@ Route::apiResource('/categories', CategoryController::class);
 Route::get('categories/{category}/products', [CategoryController::class, 'products']); // Products from a Category
 
 // Product Categories
-Route::apiResource('/product-categories', ProductCategoryController::class);
+Route::apiResource('/product-categories', ProductCategoryController::class); // Pivot table
 
 // Orders
-Route::apiResource('/orders', OrderController::class);
-Route::get('/orders/{id}/order-items', [OrderController::class, 'orderItems']);
+Route::apiResource('/orders', OrderController::class); 
+Route::get('/orders/{id}/order-items', [OrderController::class, 'orderItems']); // Order items of an order
 // Order Items
-Route::apiResource('/order-items', OrderItemController::class);
-Route::get('/order-items/{id}/order', [OrderItemController::class, 'order']);
-Route::get('/order-items/{id}/product', [OrderItemController::class, 'product']);
+Route::apiResource('/order-items', OrderItemController::class); // 
+Route::get('/order-items/{id}/order', [OrderItemController::class, 'order']); // Order of order item
+Route::get('/order-items/{id}/product', [OrderItemController::class, 'product']); // Product of order item
 
 // Order Statuses
-Route::apiResource('/order-statuses', OrderStatusesController::class);
-Route::get('/orders/{id}/statuses', [OrderStatusesController::class, 'orderStatuses']);
+Route::apiResource('/order-statuses', OrderStatusesController::class); 
+Route::get('/orders/{id}/statuses', [OrderStatusesController::class, 'orderStatuses']); // Orders with that status
 
 
 

@@ -80,12 +80,13 @@ class OrderController extends Controller
 
     // GET
     public function index(){
-        $orders = Order::with('orderItems')->get();
+        $orders = Order::with(['user','orderItems.product'])->get();
         return response()->json($orders, 200);
     }
 
     public function show($id){
-        $order = $this->findCheck($id);
+        // $order = $this->findCheck($id);
+        $order = $this->findCheck($id)->with();
         return response()->json($order, 200);
     }
 
@@ -111,8 +112,13 @@ class OrderController extends Controller
     // RELATIONS
     public function orderItems($id) {
         $order = $this->findCheck($id);
-        $orderItems = $order->orderItems;
+        $orderItems = $order->orderItems; 
         return response()->json($orderItems, 200);
+    }
+
+    public function user($id) {
+        $order = Order::with('user')->findOrFail($id);
+        return response()->json($user, 200);
     }
 
     // public function addProduct(Request $request, $orderId) {

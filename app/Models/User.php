@@ -46,7 +46,6 @@ class User extends Authenticatable
         ];
     }
 
-    // * Um usuario pode ter varios pedidos
     public function orders()
     {
         return $this->hasMany(
