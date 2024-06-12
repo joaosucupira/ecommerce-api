@@ -18,6 +18,7 @@ class ProductController extends Controller
         return $product;
     }
 
+
     // POST
     public function store(Request $request)
     {
@@ -45,10 +46,10 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        // $products = Product::with('categories')->get();
+        // $products = Product::with('categories:name')->get();
         return response()->json($products, 200);
     }
-
+    
     // DELETE
     public function destroy($id)
     {
@@ -89,6 +90,7 @@ class ProductController extends Controller
             });
 
             return response()->json($categories, 200);
+
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'message' => 'Product not found'
@@ -101,9 +103,6 @@ class ProductController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
-        // } catch(\Exception $e){
-        //     return $this->handleException($e);
-        // } // ! - undefined error
     }
 
     public function orders($productId) {
