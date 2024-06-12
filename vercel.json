@@ -6,7 +6,7 @@
     },
     "routes": [{
         "src": "/(.*)",
-        "dest": "/api/index.php"
+        "dest": "/api/api.php"
     }],
     "env": {
         "APP_ENV": "production",
@@ -24,4 +24,5 @@
         "LOG_CHANNEL": "stderr",
         "SESSION_DRIVER": "cookie"
     }
+    
 }
