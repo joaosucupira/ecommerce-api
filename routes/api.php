@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\ProdutoController;
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
 use App\Http\Controllers\CategoryController;
