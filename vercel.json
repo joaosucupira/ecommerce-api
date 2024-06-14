@@ -9,11 +9,12 @@
             "src": "/(.*)",
             "dest": "api/index.php"
         }
+
     ],
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "true",
-        "APP_URL": "https://api-production-8m9wm9l1g-joaosucupiras-projects.vercel.app",
+        "APP_URL": "https://my-laravel-api.vercel.app/",
  
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
