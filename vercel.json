@@ -8,10 +8,6 @@
         {
             "src": "/(.*)",
             "dest": "api/index.php"
-        },
-        {
-            "src": "^/api/(.*)",
-            "dest": "/routes/api/api.php"
         }
     ],
     "env": {
